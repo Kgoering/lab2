@@ -4,6 +4,7 @@ var app = express();
 app.get('/', function(req, res){
 	res.status(200);
 	res.sendFile(__dirname + "/index.html");
+	checkCookie();
 });
 
 app.get('/:id', function(req, res){
@@ -35,7 +36,7 @@ app.delete('/:id/:item', function(req, res){
 		if (req.params.id == campus[i].id) {
 		    res.set({'Content-Type': 'application/json'});
 		    var ix = -1;
-		    if (campus[i].what != undefined) {
+		    if (ccreate cookies in javascriptampus[i].what != undefined) {
 					ix = campus[i].what.indexOf(req.params.item);
 		    }
 		    if (ix >= 0) {
@@ -50,7 +51,7 @@ app.delete('/:id/:item', function(req, res){
 		    return;
 		}
 	}
-	res.status(404);
+	res.status(404);function(req, res)
 	res.send("location not found");
 });
 
@@ -86,11 +87,50 @@ var dropbox = function(ix,room) {
 	}
 	if (room.what == undefined) {
 		room.what = [];
-	}
+	}function(req, res)
 	room.what.push(item);
 }
 
-var inventory = ["laptop"];
+// Takes name of variable and value of variable to set the cookie for sessionID
+function setCookie(cookName, cookValue) {
+	document.cookie = cookName + "=" + cookValue + ";";
+}
+
+// Gets the value of the variable taking in the name of the variable
+function getCookie(cookName) {
+	var name = cookName + "=";
+	var cookArray = document.cookie.split(';');
+	for(var i = 0; i < cookArray.length; i++) {
+		var cook = cookArray[i];
+		while(cook.charAt(0) == ' ')
+			cook = cook.substring(1);
+		if(cook.indexOf(name) != -1)
+			return c.substring(name.length, cook.length);
+	}
+	return "";
+}
+
+// Checks if the cookie exists
+function checkCookie() {
+	var user = getCookie("sessionID");
+	if(user == "") 
+		setNewCookie();
+}
+
+// Creates a new cookie
+function setNewCookie() {
+	var value = Math.floor((Math.random() * 1000000000) + 1);
+	setCookie("sessionID", value);
+	createUser(value);
+}
+
+// Creates new user
+function createUser(sesID) {
+	var user = { "session": sesID, "inventory" : ["laptop"], "local" : "strong-hall"};
+	users.append(user);
+}
+
+var users = [];
 
 var campus =
     [ { "id": "lied-center",
