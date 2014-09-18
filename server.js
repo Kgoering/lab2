@@ -130,6 +130,16 @@ function createUser(sesID) {
 	users.append(user);
 }
 
+// Find and return user
+function findUser(sesID) {
+	for(int i = 0; i < users.length; i++) {
+		if(sesID = users[i].session) {
+			return users[i];
+		}
+	}
+	return null;
+}
+
 var users = [];
 
 var campus =
