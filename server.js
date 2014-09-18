@@ -50,7 +50,7 @@ app.delete('/:sesID:/id/:item', function(req, res){
 		  if (req.params.id == campus[i].id && req.params.id == user.local) {
 		      res.set({'Content-Type': 'application/json'});
 		      var ix = -1;
-		      if (ccreate cookies in javascriptampus[i].what != undefined) {
+		      if (campus[i].what != undefined) {
 					  ix = campus[i].what.indexOf(req.params.item);
 		      }
 		      if (ix >= 0) {
