@@ -31,25 +31,32 @@ app.get('/images/:name', function(req, res){
 	res.sendFile(__dirname + "/" + req.params.name);
 });
 
-app.delete('/:id/:item', function(req, res){
+app.delete('/:sesID:/id/:item', function(req, res){
+	var theUser = findUser(req.params.sesID);
+	if(theUser == null)
+	{
+		res.status(404);
+		res.send("session not found");
+		return;
+	}
 	for (var i in campus) {
-		if (req.params.id == campus[i].id) {
-		    res.set({'Content-Type': 'application/json'});
-		    var ix = -1;
-		    if (ccreate cookies in javascriptampus[i].what != undefined) {
-					ix = campus[i].what.indexOf(req.params.item);
-		    }
-		    if (ix >= 0) {
-		       res.status(200);
-			inventory.push(campus[i].what[ix]); // stash
-		        res.send(inventory);
-			campus[i].what.splice(ix, 1); // room no longer has this
-			return;
-		    }
-		    res.status(200);
-		    res.send([]);
-		    return;
-		}
+		  if (req.params.id == campus[i].id && req.params.id == user.local) {
+		      res.set({'Content-Type': 'application/json'});
+		      var ix = -1;
+		      if (ccreate cookies in javascriptampus[i].what != undefined) {
+					  ix = campus[i].what.indexOf(req.params.item);
+		      }
+		      if (ix >= 0) {
+			res.status(200);
+			  inventory.push(campus[i].what[ix]); // stash
+			  res.send(inventory);
+			  campus[i].what.splice(ix, 1); // room no longer has this
+			  return;
+		      }
+		      res.status(200);
+		      res.send([]);
+		      return;
+		  }
 	}
 	res.status(404);function(req, res)
 	res.send("location not found");
