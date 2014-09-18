@@ -55,8 +55,8 @@ app.delete('/:sesID:/id/:item', function(req, res){
 		      }
 		      if (ix >= 0) {
 			res.status(200);
-			  inventory.push(campus[i].what[ix]); // stash
-			  res.send(inventory);
+			  user.inventory.push(campus[i].what[ix]); // stash
+			  res.send(user.inventory);
 			  campus[i].what.splice(ix, 1); // room no longer has this
 			  return;
 		      }
