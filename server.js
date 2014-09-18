@@ -7,15 +7,22 @@ app.get('/', function(req, res){
 	checkCookie();
 });
 
-app.get('/:id', function(req, res){
+app.get('/:sesID/:id', function(req, res){
+	var user = findUser(sesID);
+	if(user == null) {
+		res.status(404);
+		res.send("session not found");
+		return;
+	}
 	if (req.params.id == "inventory") {
 	    res.set({'Content-Type': 'application/json'});
 	    res.status(200);
-	    res.send(inventory);
+	    res.send(user.inventory);
 	    return;
 	}
 	for (var i in campus) {
 		if (req.params.id == campus[i].id) {
+			user.local = req.params.id;
 		    res.set({'Content-Type': 'application/json'});
 		    res.status(200);
 		    res.send(campus[i]);
@@ -62,11 +69,17 @@ app.delete('/:sesID:/id/:item', function(req, res){
 	res.send("location not found");
 });
 
-app.put('/:id/:item', function(req, res){
+app.put('/:sesID/:id/:item', function(req, res){
+	var user = findUser(req.params.sesID);
+	if(user == null) {
+		res.status(404);
+		res.send("session not found");
+		return;
+	}
 	for (var i in campus) {
-		if (req.params.id == campus[i].id) {
+		if (req.params.id == campus[i].id && req.params.id == user.local) {
 				// Check you have this
-				var ix = inventory.indexOf(req.params.item)
+				var ix = user.inventory.indexOf(req.params.item)
 				if (ix >= 0) {
 					dropbox(ix,campus[i]);
 					res.set({'Content-Type': 'application/json'});
@@ -86,8 +99,8 @@ app.put('/:id/:item', function(req, res){
 app.listen(3000);
 
 var dropbox = function(ix,room) {
-	var item = inventory[ix];
-	inventory.splice(ix, 1);	 // remove from inventory
+	var item = user.inventory[ix];
+	user.inventory.splice(ix, 1);	 // remove from inventory
 	if (room.id == 'allen-fieldhouse' && item == "basketball") {
 		room.text	+= " Someone found the ball so there is a game going on!"
 		return;
