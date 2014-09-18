@@ -7,15 +7,22 @@ app.get('/', function(req, res){
 	checkCookie();
 });
 
-app.get('/:id', function(req, res){
+app.get('/:sesID/:id', function(req, res){
+	var user = findUser(sesID);
+	if(user == null) {
+		res.status(404);
+		res.send("session not found");
+		return;
+	}
 	if (req.params.id == "inventory") {
 	    res.set({'Content-Type': 'application/json'});
 	    res.status(200);
-	    res.send(inventory);
+	    res.send(user.inventory);
 	    return;
 	}
 	for (var i in campus) {
 		if (req.params.id == campus[i].id) {
+			user.local = req.params.id;
 		    res.set({'Content-Type': 'application/json'});
 		    res.status(200);
 		    res.send(campus[i]);
