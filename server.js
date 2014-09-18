@@ -65,7 +65,7 @@ app.delete('/:sesID:/id/:item', function(req, res){
 		      return;
 		  }
 	}
-	res.status(404);function(req, res)
+	res.status(404);
 	res.send("location not found");
 });
 
@@ -107,7 +107,7 @@ var dropbox = function(ix,room) {
 	}
 	if (room.what == undefined) {
 		room.what = [];
-	}function(req, res)
+	}
 	room.what.push(item);
 }
 
