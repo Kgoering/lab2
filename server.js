@@ -1,14 +1,18 @@
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser');
-app.use(cookieParser);
+app.use(cookieParser());
 
 app.get('/', function(req, res){
     res.status(200);
     res.sendFile(__dirname + "/index.html");
-    var value = Math.floor((Math.random() * 1000000000) + 1);
-    res.cookie("sessionID", value);
-    createUser(value);
+    //if(req.cookies == undefined) {
+        console.log("we made it")
+        var value = Math.floor((Math.random() * 1000000000) + 1);
+        res.cookie("sessionID", value);
+        createUser(value);
+   // }
+    console.log("we haven't made it")
 });
 
 app.get('/:id', function(req, res){
@@ -30,6 +34,7 @@ app.get('/:id', function(req, res){
             user.local = req.params.id;
             res.set({'Content-Type': 'application/json'});
             res.status(200);
+            //campus[i].text+= req.cookies.sessionID;
             res.send(campus[i]);
             return;
         }
@@ -87,7 +92,7 @@ app.put('/:id/:item', function(req, res){
             // Check you have this
             var ix = user.inventory.indexOf(req.params.item)
             if (ix >= 0) {
-                dropbox(ix,campus[i]);
+                dropbox(user, ix,campus[i]);
                 res.set({'Content-Type': 'application/json'});
                 res.status(200);
                 res.send([]);
@@ -104,7 +109,7 @@ app.put('/:id/:item', function(req, res){
 
 app.listen(3000);
 
-var dropbox = function(ix,room) {
+var dropbox = function(user, ix,room) {
     var item = user.inventory[ix];
     user.inventory.splice(ix, 1);	 // remove from inventory
     if (room.id == 'allen-fieldhouse' && item == "basketball") {
@@ -128,7 +133,7 @@ function findUser(sesID) {
     if(sesID == undefined)
         return null;
     for(var i = 0; i < users.length; i++) {
-        if(sesID = users[i].session) {
+        if(sesID == users[i].session) {
             return users[i];
         }
     }
