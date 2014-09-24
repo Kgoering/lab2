@@ -123,6 +123,8 @@ function createUser(sesID) {
 
 // Find and return user
 function findUser(sesID) {
+	if(sesID == undefined)
+		return null;
 	for(var i = 0; i < users.length; i++) {
 		if(sesID = users[i].session) {
 			return users[i];
