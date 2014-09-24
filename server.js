@@ -12,7 +12,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/:id', function(req, res){
-	var user = findUser(req.cookie.sessionID);
+	var user = findUser(req.cookies.sessionID);
 	if(user == null)
 	{
 		res.status(404);
@@ -44,7 +44,7 @@ app.get('/images/:name', function(req, res){
 });
 
 app.delete('/:id/:item', function(req, res){
-	var user = findUser(req.cookie.sessionID);
+	var user = findUser(req.cookies.sessionID);
 	if(user == null)
 	{
 		res.status(404);
@@ -75,7 +75,7 @@ app.delete('/:id/:item', function(req, res){
 });
 
 app.put('/:id/:item', function(req, res){
-	var user = findUser(req.cookie.sessionID);
+	var user = findUser(req.cookies.sessionID);
 	if(user == null)
 	{
 		res.status(404);
