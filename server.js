@@ -118,7 +118,7 @@ var dropbox = function(ix,room) {
 // Creates new user
 function createUser(sesID) {
 	var user = { "session": sesID, "inventory" : ["laptop"], "local" : "strong-hall"};
-	users.append(user);
+	users.push(user);
 }
 
 // Find and return user
