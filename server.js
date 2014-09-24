@@ -4,12 +4,15 @@ var app = express();
 app.get('/', function(req, res){
 	res.status(200);
 	res.sendFile(__dirname + "/index.html");
-	checkCookie();
+	var value = Math.floor((Math.random() * 1000000000) + 1);
+	res.cookie("sessionID", value);
+	createUser(value);
 });
 
-app.get('/:sesID/:id', function(req, res){
-	var user = findUser(sesID);
-	if(user == null) {
+app.get('/:id', function(req, res){
+	var user = findUser(req.cookie.sessionID);
+	if(user == null)
+	{
 		res.status(404);
 		res.send("session not found");
 		return;
@@ -38,9 +41,9 @@ app.get('/images/:name', function(req, res){
 	res.sendFile(__dirname + "/" + req.params.name);
 });
 
-app.delete('/:sesID:/id/:item', function(req, res){
-	var theUser = findUser(req.params.sesID);
-	if(theUser == null)
+app.delete('/:id/:item', function(req, res){
+	var user = findUser(req.cookie.sessionID);
+	if(user == null)
 	{
 		res.status(404);
 		res.send("session not found");
@@ -69,9 +72,10 @@ app.delete('/:sesID:/id/:item', function(req, res){
 	res.send("location not found");
 });
 
-app.put('/:sesID/:id/:item', function(req, res){
-	var user = findUser(req.params.sesID);
-	if(user == null) {
+app.put('/:id/:item', function(req, res){
+	var user = findUser(req.cookie.sessionID);
+	if(user == null)
+	{
 		res.status(404);
 		res.send("session not found");
 		return;
@@ -109,39 +113,6 @@ var dropbox = function(ix,room) {
 		room.what = [];
 	}
 	room.what.push(item);
-}
-
-// Takes name of variable and value of variable to set the cookie for sessionID
-function setCookie(cookName, cookValue) {
-	document.cookie = cookName + "=" + cookValue + ";";
-}
-
-// Gets the value of the variable taking in the name of the variable
-function getCookie(cookName) {
-	var name = cookName + "=";
-	var cookArray = document.cookie.split(';');
-	for(var i = 0; i < cookArray.length; i++) {
-		var cook = cookArray[i];
-		while(cook.charAt(0) == ' ')
-			cook = cook.substring(1);
-		if(cook.indexOf(name) != -1)
-			return c.substring(name.length, cook.length);
-	}
-	return "";
-}
-
-// Checks if the cookie exists
-function checkCookie() {
-	var user = getCookie("sessionID");
-	if(user == "") 
-		setNewCookie();
-}
-
-// Creates a new cookie
-function setNewCookie() {
-	var value = Math.floor((Math.random() * 1000000000) + 1);
-	setCookie("sessionID", value);
-	createUser(value);
 }
 
 // Creates new user
