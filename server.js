@@ -7,12 +7,12 @@ app.get('/', function(req, res){
     res.status(200);
     res.sendFile(__dirname + "/index.html");
     //if(req.cookies == undefined) {
-        console.log("we made it")
+       // console.log("we made it")
         var value = Math.floor((Math.random() * 1000000000) + 1);
         res.cookie("sessionID", value);
         createUser(value);
    // }
-    console.log("we haven't made it")
+    //console.log("we haven't made it")
 });
 
 app.get('/:id', function(req, res){
